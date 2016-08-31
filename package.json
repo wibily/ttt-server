@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "babel-node index.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js  --recursive",
     "test:watch": "npm run test -- --watch"
   },
@@ -19,6 +20,9 @@
     "mocha": "^3.0.2"
   },
   "dependencies": {
-    "immutable": "^3.8.1"
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "immutable": "^3.8.1",
+    "redux": "^3.5.2"
   }
 }
