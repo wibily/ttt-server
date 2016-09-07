@@ -17,7 +17,6 @@ export function play(state, move) {
         return state;
     }
 
-
     const board = state.get('board').toJS();
     board[move[0]][move[1]] = state.get('player');
 
@@ -76,7 +75,7 @@ function nextPlayer(state) {
     return (state.get('player') === 1) ? 2 : 1;
 }
 
-function isGameOver(state) {
+function isGameOver(state){
     return !!(state.get('winner') || state.get('draw'));
 
 }

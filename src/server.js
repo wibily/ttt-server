@@ -8,32 +8,33 @@ export function startServer(store) {
     app.use(bodyParser.json());
     app.use(cookieParser());
 
-    let players = 0;
+    app.use((req, res, next) =>{
+        res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+        next();
+    });
 
     app.get('/game', (req, res)=> {
-        if(players < 2 && !req.cookies.player){
-            res.cookie('player', ++players);
-            console.log('Player ' + players +' joined');
-        }
         res.send(store.getState().toJS());
     });
 
     app.post('/game/move', (req, res) => {
-        store.dispatch(req.body.move);
+        store.dispatch({
+            type: 'PLAY',
+            move: req.body.move
+        });
         res.send(store.getState().toJS());
     });
 
     app.get('/game/restart', (req, res) => {
-        players = 0;
-        res.clearCookie('player');
-
         store.dispatch(({
             type: 'START'
         }));
-        res.redirect('/game');
+        res.send(store.getState().toJS());
     });
 
-    app.listen(3000, function () {
-        console.log('Tic tac toe server listening on port 3000');
+    app.listen(3001, function () {
+        console.log('Tic tac toe server listening on port 3001');
     });
 }
