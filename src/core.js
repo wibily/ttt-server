@@ -5,6 +5,7 @@ export const INITIAL_STATE = start();
 export function start() {
     return Map({
         player: 1,
+        winner: null,
         board: fromJS([
             [null, null, null],
             [null, null, null],
@@ -23,9 +24,9 @@ export function play(state, move) {
     const result = getResult(board);
 
     if (result === 'won') {
-        return state.set('winner', state.get('player')).set('board', fromJS(board)).remove('player');
+        return state.set('winner', state.get('player')).set('board', fromJS(board)).set('player', null);
     } else if (result === 'draw') {
-        return state.set('draw', true).set('board', fromJS(board)).remove('player');
+        return state.set('winner', 'draw').set('board', fromJS(board)).set('player', null);
     } else {
         return state.set('player', nextPlayer(state)).set('board', fromJS(board));
     }
